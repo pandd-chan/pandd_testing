@@ -360,3 +360,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+##**************************************
+# Ignore DXlib files
+**/DxLib_VC/サンプルプログラム実行用フォルダ/
+
+**/DxLib_VC/Tool/
+
+**/DxLib_VC/help/
+
+**/DxLib_VC/プロジェクトに追加すべきファイル_VC用/*.lib
