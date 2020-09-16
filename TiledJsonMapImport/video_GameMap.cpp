@@ -54,7 +54,7 @@ int ReloadGameMapGraphs(GameMap_t* map)
       rc = 1;
     }
   }
-	return rc;
+  return rc;
 }
 /*******************************************************************************
 *******************************************************************************/
@@ -145,5 +145,5 @@ void DrawGameMap(const GameMap_t* map, double x, double y)
       }/*for l*/
     }/*for j*/
   }/*for i*/
-	return;
+  return;
 }

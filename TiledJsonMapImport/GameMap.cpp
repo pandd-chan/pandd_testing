@@ -44,15 +44,15 @@ GameMap_t *GameMap_loadFromTiledJSON(const char *path)
 {
   _GameMap_clearErrStr();
   GameMap_t* map;
-	if(path == nullptr){
-		return nullptr;
-	}
+  if(path == nullptr){
+    return nullptr;
+  }
 
-	//copy json file contents to std::string
-	std::ifstream fin(path);
-	std::stringstream ss;
-	ss << fin.rdbuf();
-	fin.close();
+  //copy json file contents to std::string
+  std::ifstream fin(path);
+  std::stringstream ss;
+  ss << fin.rdbuf();
+  fin.close();
   if (ss.str() == "") {
     _GameMap_appendToErrStr("Can not open file: \"");
     _GameMap_appendToErrStr(path);
@@ -60,16 +60,16 @@ GameMap_t *GameMap_loadFromTiledJSON(const char *path)
     return nullptr;
   }
 
-	//parse json string
-	std::string errmsg;
-	json11::Json jsonMap;
-	jsonMap = json11::Json::parse(  ss.str() , errmsg );
+  //parse json string
+  std::string errmsg;
+  json11::Json jsonMap;
+  jsonMap = json11::Json::parse(  ss.str() , errmsg );
 
-	//check parsing errors
-	if( errmsg.size() != 0){
+  //check parsing errors
+  if( errmsg.size() != 0){
     _GameMap_appendToErrStr(path + (std::string)"\nJSON Parse Error:" + errmsg + "\n" );
-		return nullptr;
-	}
+    return nullptr;
+  }
 
   //allocate map
   map = (GameMap_t*)calloc(1, sizeof(GameMap_t));
@@ -78,15 +78,15 @@ GameMap_t *GameMap_loadFromTiledJSON(const char *path)
   }
   map->byteSize += sizeof(GameMap_t);
 
-	//fill struct with jsonMap data
-	map->width = jsonMap["width"].int_value();
-	map->height = jsonMap["height"].int_value();
-	map->tileheight = jsonMap["tileheight"].int_value();
-	map->tilewidth = jsonMap["tilewidth"].int_value();
+  //fill struct with jsonMap data
+  map->width = jsonMap["width"].int_value();
+  map->height = jsonMap["height"].int_value();
+  map->tileheight = jsonMap["tileheight"].int_value();
+  map->tilewidth = jsonMap["tilewidth"].int_value();
 
   std::string mapDir = _getDir(path);
   int rc = 0; //return code
-	if (rc == 0) rc = _loadMapLayers(&jsonMap, map);
+  if (rc == 0) rc = _loadMapLayers(&jsonMap, map);
   if (rc == 0) rc = _loadMapTilesets(&jsonMap, map , mapDir.c_str());
   if (rc == 0) rc = ReloadGameMapGraphs(map);
 
@@ -95,7 +95,7 @@ GameMap_t *GameMap_loadFromTiledJSON(const char *path)
     return nullptr;
   }
 
-	return map;
+  return map;
 }
 
 /*******************************************************************************/
@@ -107,7 +107,7 @@ void GameMap_free(GameMap_t *map)
   _freeMapLayers(map);
   _freeMapTilesets(map);
   free(map);
-	return;
+  return;
 }
 
 /*******************************************************************************/
@@ -369,37 +369,37 @@ const char* GameMap_getErrStr()
 /*******************************************************************************/
 static void _printTilemapData(const unsigned int *data, int w, int h)
 {
-	for(int i = 0 ; i < w*h ; i+=w)
-	{
-		printf("\t");
-		for(int j = 0; j < w ; j++)
-		{
-			printf("%03u ",data[i+j]);
-		}
-		printf("\n");
-	}
+  for(int i = 0 ; i < w*h ; i+=w)
+  {
+    printf("\t");
+    for(int j = 0; j < w ; j++)
+    {
+      printf("%03u ",data[i+j]);
+    }
+    printf("\n");
+  }
 }
 void GameMap_print(const GameMap_t *map)
 {
   if (map == nullptr)
     return;
-	printf("map\n"
+  printf("map\n"
         "\tsize : %u bytes\n"
-	       "\twidth:\t%d\n"
-	       "\theight:\t%d\n"
-	       "\ttileheight:\t%d\n"
-	       "\ttilewidth:\t%d\n",
+         "\twidth:\t%d\n"
+         "\theight:\t%d\n"
+         "\ttileheight:\t%d\n"
+         "\ttilewidth:\t%d\n",
          map->byteSize,
-	       map->width,
-	       map->height,
-	       map->tileheight,
-	       map->tilewidth);
-	for(int i = 0; i != map->layersNum; i++){
-		printf("\tlayer %d \"%s\"\n", i, map->layers[i].name);
-		printf("\t\tWidth: %d\n\t\tHeight: %d\n",
-		map->layers[i].width,map->layers[i].height);
-	  //_printTilemapData(map->layers[i].data,map->layers[i].width,map->layers[i].height);
-	}
+         map->width,
+         map->height,
+         map->tileheight,
+         map->tilewidth);
+  for(int i = 0; i != map->layersNum; i++){
+    printf("\tlayer %d \"%s\"\n", i, map->layers[i].name);
+    printf("\t\tWidth: %d\n\t\tHeight: %d\n",
+    map->layers[i].width,map->layers[i].height);
+    //_printTilemapData(map->layers[i].data,map->layers[i].width,map->layers[i].height);
+  }
   for (int i = 0; i != map->tilesetsNum; i++) {
     printf("\ttileset %d \"%s\"\n", i, map->tilesets[i].name);
     printf("\t\tfile:\"%s\"\n\t\tWidth: %d\n\t\tHeight: %d\n"
