@@ -371,3 +371,4 @@ FodyWeavers.xsd
 
 **/DxLib_VC/プロジェクトに追加すべきファイル_VC用/*.lib
 /DXlib_pixelEffects/Log.txt
+/TiledJsonMapImport/Log.txt
